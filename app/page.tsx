@@ -165,19 +165,33 @@ const AutomationCard = ({ rule, onToggle }: { rule: any; onToggle?: (id: number)
     {/* Trigger */}
     <div className="bg-purple-50 rounded-lg p-3 mb-3">
       <p className="text-xs text-purple-400 mb-1 font-semibold">المحفز:</p>
-      <p className="text-sm text-purple-400">
-        {rule.trigger.icon} {rule.trigger.textAr}
-      </p>
-      <p className="text-xs text-gray-500 mt-1">{rule.trigger.textEn}</p>
+      <div className="flex items-center gap-2">
+        <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-purple-400">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+          </svg>
+        </div>
+        <div>
+          <p className="text-sm text-purple-400">{rule.trigger.textAr}</p>
+          <p className="text-xs text-gray-500 mt-1">{rule.trigger.textEn}</p>
+        </div>
+      </div>
     </div>
 
     {/* Action */}
     <div className="bg-orange-50 rounded-lg p-3 mb-4">
       <p className="text-xs text-orange-400 mb-1 font-semibold">الإجراء:</p>
-      <p className="text-sm text-orange-400">
-        {rule.action.icon} {rule.action.textAr}
-      </p>
-      <p className="text-xs text-gray-500 mt-1">{rule.action.textEn}</p>
+      <div className="flex items-center gap-2">
+        <div className="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-orange-400">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+          </svg>
+        </div>
+        <div>
+          <p className="text-sm text-orange-400">{rule.action.textAr}</p>
+          <p className="text-xs text-gray-500 mt-1">{rule.action.textEn}</p>
+        </div>
+      </div>
     </div>
 
     {/* Stats */}
@@ -288,32 +302,40 @@ export default function AutomationsPage() {
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-white rounded-xl p-6 shadow-sm">
-            <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-2">
-              <span className="text-2xl text-purple-400">🤖</span>
+            <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-purple-400">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
             </div>
             <div className="text-3xl font-bold text-gray-900 mb-1">{rules.length}</div>
             <div className="text-sm text-gray-600 mb-2">قاعدة</div>
             <div className="text-xs text-green-600 font-semibold">+5% ↑</div>
           </div>
           <div className="bg-white rounded-xl p-6 shadow-sm">
-            <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-2">
-              <span className="text-2xl text-blue-400">✅</span>
+            <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-blue-400">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+              </svg>
             </div>
             <div className="text-3xl font-bold text-gray-900 mb-1">{activeRules}</div>
             <div className="text-sm text-gray-600 mb-2">نشطة</div>
             <div className="text-xs text-green-600 font-semibold">+12% ↑</div>
           </div>
           <div className="bg-white rounded-xl p-6 shadow-sm">
-            <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-2">
-              <span className="text-2xl text-green-400">⚡</span>
+            <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-green-400">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h3l2.25-6 3 12 2.25-6h5.25" />
+              </svg>
             </div>
             <div className="text-3xl font-bold text-gray-900 mb-1">{totalExecutions}</div>
             <div className="text-sm text-gray-600 mb-2">تنفيذ</div>
             <div className="text-xs text-green-600 font-semibold">+23% ↑</div>
           </div>
           <div className="bg-white rounded-xl p-6 shadow-sm">
-            <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center mb-2">
-              <span className="text-2xl text-orange-400">🎯</span>
+            <div className="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-orange-400">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+              </svg>
             </div>
             <div className="text-3xl font-bold text-gray-900 mb-1">{avgSuccessRate}%</div>
             <div className="text-sm text-gray-600 mb-2">نجاح</div>

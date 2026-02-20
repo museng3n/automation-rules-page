@@ -163,18 +163,18 @@ const AutomationCard = ({ rule, onToggle }: { rule: any; onToggle?: (id: number)
     </div>
 
     {/* Trigger */}
-    <div className="bg-gray-50 rounded-lg p-3 mb-3">
-      <p className="text-xs text-gray-500 mb-1 font-semibold">المحفز:</p>
-      <p className="text-sm text-gray-900">
+    <div className="bg-purple-50 rounded-lg p-3 mb-3">
+      <p className="text-xs text-purple-400 mb-1 font-semibold">المحفز:</p>
+      <p className="text-sm text-purple-400">
         {rule.trigger.icon} {rule.trigger.textAr}
       </p>
       <p className="text-xs text-gray-500 mt-1">{rule.trigger.textEn}</p>
     </div>
 
     {/* Action */}
-    <div className="bg-purple-50 rounded-lg p-3 mb-4">
-      <p className="text-xs text-gray-500 mb-1 font-semibold">الإجراء:</p>
-      <p className="text-sm text-gray-900">
+    <div className="bg-orange-50 rounded-lg p-3 mb-4">
+      <p className="text-xs text-orange-400 mb-1 font-semibold">الإجراء:</p>
+      <p className="text-sm text-orange-400">
         {rule.action.icon} {rule.action.textAr}
       </p>
       <p className="text-xs text-gray-500 mt-1">{rule.action.textEn}</p>
@@ -271,7 +271,7 @@ export default function AutomationsPage() {
             <p className="text-sm text-gray-600">{rules.length} قاعدة نشطة</p>
           </div>
           <div className="flex items-center gap-3">
-            <button className="bg-[#7C3AED] hover:bg-[#6D31D4] text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors shadow-md">
+            <button className="bg-[#7C3AED] text-white px-6 py-3 rounded-lg flex items-center gap-2 shadow-md hover:bg-gradient-to-r hover:from-purple-400 hover:via-pink-400 hover:to-orange-300 hover:shadow-lg hover:scale-105 transition-all duration-300">
               <Plus className="w-5 h-5 text-white" />
               <span className="font-semibold">إنشاء قاعدة جديدة</span>
             </button>
@@ -288,25 +288,33 @@ export default function AutomationsPage() {
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-white rounded-xl p-6 shadow-sm">
-            <div className="text-4xl mb-2">🤖</div>
+            <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center mb-2">
+              <span className="text-2xl text-purple-400">🤖</span>
+            </div>
             <div className="text-3xl font-bold text-gray-900 mb-1">{rules.length}</div>
             <div className="text-sm text-gray-600 mb-2">قاعدة</div>
             <div className="text-xs text-green-600 font-semibold">+5% ↑</div>
           </div>
           <div className="bg-white rounded-xl p-6 shadow-sm">
-            <div className="text-4xl mb-2">✅</div>
+            <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-2">
+              <span className="text-2xl text-blue-400">✅</span>
+            </div>
             <div className="text-3xl font-bold text-gray-900 mb-1">{activeRules}</div>
             <div className="text-sm text-gray-600 mb-2">نشطة</div>
             <div className="text-xs text-green-600 font-semibold">+12% ↑</div>
           </div>
           <div className="bg-white rounded-xl p-6 shadow-sm">
-            <div className="text-4xl mb-2">⚡</div>
+            <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-2">
+              <span className="text-2xl text-green-400">⚡</span>
+            </div>
             <div className="text-3xl font-bold text-gray-900 mb-1">{totalExecutions}</div>
             <div className="text-sm text-gray-600 mb-2">تنفيذ</div>
             <div className="text-xs text-green-600 font-semibold">+23% ↑</div>
           </div>
           <div className="bg-white rounded-xl p-6 shadow-sm">
-            <div className="text-4xl mb-2">🎯</div>
+            <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center mb-2">
+              <span className="text-2xl text-orange-400">🎯</span>
+            </div>
             <div className="text-3xl font-bold text-gray-900 mb-1">{avgSuccessRate}%</div>
             <div className="text-sm text-gray-600 mb-2">نجاح</div>
             <div className="text-xs text-green-600 font-semibold">+2% ↑</div>

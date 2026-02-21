@@ -273,9 +273,6 @@ export default function AutomationsPage() {
       localStorage.setItem('triggerio_token', urlToken)
       window.history.replaceState({}, '', window.location.pathname)
     }
-  }, [])
-
-  useEffect(() => {
     if (!isAuthenticated()) {
       window.location.href = URLS.AUTH
       return

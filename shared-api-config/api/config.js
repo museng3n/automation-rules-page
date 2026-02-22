@@ -6,7 +6,7 @@ const API_CONFIG = {
   baseURL: 'https://triggerio-backend.onrender.com/api',
   
   // مهلة الانتظار (30 ثانية)
-  timeout: 30000,
+  timeout: 90000,
   
   // Headers افتراضية
   headers: {

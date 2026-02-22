@@ -35,7 +35,11 @@ apiClient.interceptors.response.use(
     // إذا انتهت صلاحية Token
     if (error.response?.status === 401) {
       removeToken();
-      window.top.location.href = 'https://triggerio-auth.vercel.app/login';
+      try {
+        window.top.location.href = 'https://triggerio-auth.vercel.app/login';
+      } catch(e) {
+        window.parent.postMessage({ type: 'AUTH_REQUIRED' }, 'https://triggerio-shell.vercel.app');
+      }
     }
     return Promise.reject(error);
   }

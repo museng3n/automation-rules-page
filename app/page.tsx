@@ -180,7 +180,7 @@ const SuccessRateBar = ({ rate }: { rate: number }) => (
   </div>
 )
 
-const AutomationCard = ({ rule, onToggle }: { rule: any; onToggle?: (id: number) => void }) => (
+const AutomationCard = ({ rule, onToggle, onNavigate }: { rule: any; onToggle?: (id: number) => void; onNavigate?: (ruleId?: string) => void }) => (
   <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all hover:-translate-y-1">
     {/* Header */}
     <div className="flex items-start justify-between mb-4">
@@ -189,11 +189,11 @@ const AutomationCard = ({ rule, onToggle }: { rule: any; onToggle?: (id: number)
         <p className="text-sm text-gray-500">{rule.titleEn}</p>
       </div>
       <div className="flex items-center gap-2 mr-4">
-        <button className="bg-[#7C3AED] hover:bg-[#6D31D4] text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+        <button onClick={() => onNavigate?.(rule._id || rule.id)} className="bg-[#7C3AED] hover:bg-[#6D31D4] text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
           <Eye className="w-4 h-4 text-white" />
           <span className="font-semibold">عرض</span>
         </button>
-        <button className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+        <button onClick={() => onNavigate?.(rule._id || rule.id)} className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
           <Edit className="w-4 h-4 text-white" />
           <span className="font-semibold">تعديل</span>
         </button>
@@ -265,9 +265,6 @@ export default function AutomationsPage() {
   const [rules, setRules] = useState<any[]>(sampleRules)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [isCreateOpen, setIsCreateOpen] = useState(false)
-  const [creating, setCreating] = useState(false)
-  const [newRule, setNewRule] = useState({ name: "", platform: "instagram" })
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -310,24 +307,10 @@ export default function AutomationsPage() {
     }
   }
 
-  const handleCreateRule = async () => {
-    if (!newRule.name.trim()) return alert("اسم القاعدة مطلوب")
-
-    setCreating(true)
-    try {
-      await apiClient.post(ENDPOINTS.AUTOMATION.BASE, {
-        name: newRule.name.trim(),
-        platform: newRule.platform,
-      })
-      setIsCreateOpen(false)
-      setNewRule({ name: "", platform: "instagram" })
-      fetchRules()
-    } catch (err: any) {
-      console.error("Failed to create rule:", err)
-      alert(err.response?.data?.message || err.message || "فشل في إنشاء القاعدة")
-    } finally {
-      setCreating(false)
-    }
+  const navigateToBuilder = (ruleId?: string) => {
+    const message: any = { type: 'NAVIGATE', page: 'automation-builder' }
+    if (ruleId) message.ruleId = ruleId
+    window.parent.postMessage(message, 'https://triggerio-shell.vercel.app')
   }
 
   const activeRules = rules.filter((rule) => rule.status === "active").length
@@ -352,7 +335,7 @@ export default function AutomationsPage() {
             <p className="text-sm text-gray-600">{rules.length} قاعدة نشطة</p>
           </div>
           <div className="flex items-center gap-3">
-            <button onClick={() => setIsCreateOpen(true)} className="bg-[#7C3AED] text-white px-6 py-3 rounded-lg flex items-center gap-2 shadow-md hover:bg-gradient-to-r hover:from-purple-400 hover:via-pink-400 hover:to-orange-300 hover:shadow-lg hover:scale-105 transition-all duration-300">
+            <button onClick={() => navigateToBuilder()} className="bg-[#7C3AED] text-white px-6 py-3 rounded-lg flex items-center gap-2 shadow-md hover:bg-gradient-to-r hover:from-purple-400 hover:via-pink-400 hover:to-orange-300 hover:shadow-lg hover:scale-105 transition-all duration-300">
               <Plus className="w-5 h-5 text-white" />
               <span className="font-semibold">إنشاء قاعدة جديدة</span>
             </button>
@@ -552,7 +535,7 @@ export default function AutomationsPage() {
         {!loading && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {filteredRules.map((rule) => (
-            <AutomationCard key={rule.id} rule={rule} onToggle={handleToggle} />
+            <AutomationCard key={rule.id} rule={rule} onToggle={handleToggle} onNavigate={navigateToBuilder} />
           ))}
         </div>
         )}
@@ -563,7 +546,7 @@ export default function AutomationsPage() {
             <h3 className="text-xl font-bold text-gray-900 mb-2">لا توجد قواعد أتمتة بعد</h3>
             <p className="text-gray-600 mb-2">No automation rules yet</p>
             <p className="text-gray-500 mb-6">ابدأ بإنشاء أول قاعدة لأتمتة تفاعلاتك مع جمهورك</p>
-            <button onClick={() => setIsCreateOpen(true)} className="bg-[#7C3AED] hover:bg-[#6D31D4] text-white px-6 py-3 rounded-lg flex items-center gap-2 mx-auto transition-colors">
+            <button onClick={() => navigateToBuilder()} className="bg-[#7C3AED] hover:bg-[#6D31D4] text-white px-6 py-3 rounded-lg flex items-center gap-2 mx-auto transition-colors">
               <Plus className="w-5 h-5 text-white" />
               <span className="font-semibold">إنشاء أول قاعدة</span>
             </button>
@@ -571,53 +554,6 @@ export default function AutomationsPage() {
         )}
       </div>
 
-      {/* Create Rule Dialog */}
-      {isCreateOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setIsCreateOpen(false)}>
-          <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl" dir="rtl" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-xl font-bold text-gray-900 mb-4">إنشاء قاعدة جديدة</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">اسم القاعدة *</label>
-                <input
-                  type="text"
-                  placeholder="مثال: الرد التلقائي على المهتمين"
-                  value={newRule.name}
-                  onChange={(e) => setNewRule((prev) => ({ ...prev, name: e.target.value }))}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 text-right focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">المنصة *</label>
-                <select
-                  value={newRule.platform}
-                  onChange={(e) => setNewRule((prev) => ({ ...prev, platform: e.target.value }))}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 text-right focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
-                >
-                  <option value="instagram">Instagram</option>
-                  <option value="facebook">Facebook</option>
-                  <option value="linkedin">LinkedIn</option>
-                </select>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 mt-6 justify-start">
-              <button
-                onClick={() => setIsCreateOpen(false)}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                إلغاء
-              </button>
-              <button
-                onClick={handleCreateRule}
-                disabled={creating}
-                className="px-6 py-2 bg-[#7C3AED] hover:bg-[#6D31D4] text-white rounded-lg font-semibold transition-colors disabled:opacity-50"
-              >
-                {creating ? "جاري الإنشاء..." : "إنشاء"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

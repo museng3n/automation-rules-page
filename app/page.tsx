@@ -336,7 +336,7 @@ export default function AutomationsPage() {
 
   const filteredRules = rules.filter((rule) => {
     const matchesSearch =
-      rule.titleAr.includes(searchTerm) || rule.titleEn.toLowerCase().includes(searchTerm.toLowerCase())
+      (rule.titleAr || rule.name || "").includes(searchTerm) || (rule.titleEn || rule.name || "").toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === "all" || rule.status === statusFilter
     const matchesPlatform = platformFilter === "all" || rule.platform === platformFilter
     return matchesSearch && matchesStatus && matchesPlatform

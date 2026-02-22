@@ -120,7 +120,7 @@ const PlatformBadge = ({ platform }: { platform: string }) => {
     email: { bg: "bg-green-100", text: "text-green-700", label: "Email" },
   }
 
-  const config = configs[platform as keyof typeof configs]
+  const config = configs[platform as keyof typeof configs] || { bg: "bg-gray-100", text: "text-gray-700", label: platform }
 
   return (
     <span className={`px-3 py-1 rounded-full text-sm ${config.bg} ${config.text} font-semibold inline-flex items-center gap-1`}>
@@ -159,7 +159,7 @@ const StatusBadge = ({ status }: { status: string }) => {
     draft: { bg: "bg-gray-100", text: "text-gray-700", label: "مسودة" },
   }
 
-  const config = configs[status as keyof typeof configs]
+  const config = configs[status as keyof typeof configs] || { bg: "bg-gray-100", text: "text-gray-700", label: status }
 
   return (
     <span className={`px-3 py-1 rounded-full text-sm ${config.bg} ${config.text} font-semibold inline-flex items-center gap-1`}>
@@ -219,8 +219,8 @@ const AutomationCard = ({ rule, onToggle }: { rule: any; onToggle?: (id: number)
           </svg>
         </div>
         <div>
-          <p className="text-sm text-purple-400">{rule.trigger.textAr}</p>
-          <p className="text-xs text-gray-500 mt-1">{rule.trigger.textEn}</p>
+          <p className="text-sm text-purple-400">{rule.trigger?.textAr || ''}</p>
+          <p className="text-xs text-gray-500 mt-1">{rule.trigger?.textEn || ''}</p>
         </div>
       </div>
     </div>
@@ -235,8 +235,8 @@ const AutomationCard = ({ rule, onToggle }: { rule: any; onToggle?: (id: number)
           </svg>
         </div>
         <div>
-          <p className="text-sm text-orange-400">{rule.action.textAr}</p>
-          <p className="text-xs text-gray-500 mt-1">{rule.action.textEn}</p>
+          <p className="text-sm text-orange-400">{rule.action?.textAr || ''}</p>
+          <p className="text-xs text-gray-500 mt-1">{rule.action?.textEn || ''}</p>
         </div>
       </div>
     </div>
